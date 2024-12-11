@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Tester Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #b3e5fc);
+            color: #333;
+            height: 100%;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+        }
+
+        /* General section styling */
+        section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            scroll-snap-align: start;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .hero {
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #0288d1, #03a9f4);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        img {
+            -webkit-user-drag: none;
+            /* Disable image dragging in WebKit-based browsers (Chrome, Safari) */
+            user-drag: none;
+            /* Standardized property for all browsers */
+        }
+
+
+        .about img {
+            width: 200px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .projects .card {
+            transition: transform 0.3s;
+        }
+
+        .projects .card:hover {
+            transform: scale(1.05);
+        }
+
+        .projects .btn {
+            margin-top: 10px;
+            background-color: #0288d1;
+            color: white;
+            text-decoration: none;
+        }
+
+        .projects .btn:hover {
+            background-color: #03a9f4;
+        }
+
+        .contact form input,
+        .contact form textarea {
+            margin-bottom: 15px;
+        }
+
+        footer {
+            padding: 15px 0;
+            /* Reduced padding */
+            background: #0288d1;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            /* Reduced margin */
+        }
+
+        .social-icon {
+            font-size: 1.5rem;
+            /* Smaller icon size */
+            color: #fff;
+            padding: 10px;
+            border-radius: 50%;
+            background-color: #0288d1;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+            /* Slightly smaller scale on hover */
+            background-color: #03a9f4;
+            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+            /* Slightly reduced shadow */
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            /* Smaller text size */
+            color: #fff;
+            margin-top: 10px;
+            /* Reduced margin */
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .social-links {
+                gap: 10px;
+            }
+        }
+
+        .resume {
+            text-align: center;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        .resume a {
+            font-size: 1.2rem;
+            background-color: #0288d1;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .resume a:hover {
+            background-color: #03a9f4;
+        }
+
+        /* Tooltip content */
+        .tooltip-menu {
+            position: fixed;
+            top: 20%;
+            right: 10px;
+            z-index: 10;
+            transition: right 0.3s ease, left 0.3s ease;
+        }
+
+        .tooltip-menu a {
+            display: block;
+            color: #0288d1;
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 0.5rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .tooltip-menu a:hover {
+            transform: scale(1.3);
+            color: #03a9f4;
+        }
+
+        .tooltip-menu .tooltip-text {
+            visibility: hidden;
+            width: 150px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            opacity: 0.7;
+            /* Reduced opacity */
+            transition: opacity 0.3s ease;
+            left: -160px;
+            /* Position the tooltip to the left */
+            margin-left: 0;
+        }
+
+        .tooltip-menu a:hover+.tooltip-text {
+            visibility: visible;
+            opacity: 1;
+            /* Fully visible when hovered */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .tooltip-menu {
+                left: 10px;
+                right: auto;
+                top: 50%;
+                /* Move tooltip vertically centered for smaller screens */
+            }
+
+            .tooltip-menu .tooltip-text {
+                left: 100%;
+                /* Tooltip will show on the right side of the icon */
+                margin-left: 10px;
+                /* Slight margin to prevent overlap */
+                width: 130px;
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+
+            .tooltip-menu a {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tooltip-menu .tooltip-text {
+                width: 120px;
+                font-size: 0.8rem;
+                padding: 7px;
+            }
+
+            .tooltip-menu a {
+                font-size: 1rem;
+            }
+        }
+
+        /* Animation for sections */
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section.visible {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tooltip-menu">
+        <a href="#hero"><i class="fas fa-home"></i></a>
+        <span class="tooltip-text">Home</span>
+        <a href="#about"><i class="fas fa-user"></i></a>
+        <span class="tooltip-text">About</span>
+        <a href="#projects"><i class="fas fa-project-diagram"></i></a>
+        <span class="tooltip-text">Projects</span>
+        <a href="#resume"><i class="fas fa-file-alt"></i></a>
+        <span class="tooltip-text">Resume</span>
+        <a href="#contact"><i class="fas fa-envelope"></i></a>
+        <span class="tooltip-text">Contact</span>
+    </div>
+
+    <section id="hero" class="hero">
+        <div>
+            <h1>Welcome to My Portfolio</h1>
+            <p>Hi, I'm <span style="font-style: italic; color: gray">Deepika Jayanna</span>, a passionate Software
+                Tester.</p>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container text-center">
+            <img src="deepika.png" alt="Profile Picture" oncontextmenu="return false;">
+            <h2>About Me</h2>
+            <p>I'm a dedicated Tester specializing in creating efficient and innovative solutions.</p>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="text-center mb-5">Projects</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <h3>Project 1</h3>
+                        <p>A brief description of the project goes here.</p>
+                        <a href="#" class="btn btn-primary">View Project</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <h3>Project 2</h3>
+                        <p>A brief description of the project goes here.</p>
+                        <a href="#" class="btn btn-primary">View Project</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <h3>Project 3</h3>
+                        <p>A brief description of the project goes here.</p>
+                        <a href="#" class="btn btn-primary">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="resume" class="resume">
+        <div>
+            <h2>Resume</h2>
+            <p>"Your next great hire might just be a click away!"</p>
+            <a href="#" target="_blank">Download Resume</a>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <form>
+                <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+                <input type="email" id="email" class="form-control" placeholder="Your Email" required>
+                <textarea class="form-control" id="message" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn btn-primary mt-3">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center">
+            <div class="social-links mb-4">
+                <a href="https://github.com/yourusername" target="_blank" class="social-icon">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/yourname" target="_blank" class="social-icon">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="mailto:yourname@gmail.com" target="_blank" class="social-icon">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="https://www.naukri.com/mynaukri/mn_newsmartsearch.php?xz=1_0_1" target="_blank"
+                    class="social-icon">
+                    <i class="fas fa-briefcase"></i>
+                </a>
+            </div>
+            <p class="footer-text">© 2024 Deepika Jayanna | Software Tester</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const sections = $('section');
+            let scrollFlag = false;
+
+            // Ensure each section takes up the full height of the viewport
+            $('section').css('height', $(window).height());
+
+            $(window).on('wheel', function (e) {
+                if (scrollFlag) return;
+                scrollFlag = true;
+                const direction = e.originalEvent.deltaY;
+
+                if (direction > 0) {
+                    // Scroll Down
+                    let nextSection = $(window).scrollTop() + $(window).height();
+                    if (nextSection < $(document).height()) {
+                        $('html, body').animate({ scrollTop: nextSection }, 300); // Faster transition
+                    }
+                } else {
+                    // Scroll Up
+                    let prevSection = $(window).scrollTop() - $(window).height();
+                    if (prevSection > 0) {
+                        $('html, body').animate({ scrollTop: prevSection }, 300); // Faster transition
+                    }
+                }
+
+                setTimeout(function () {
+                    scrollFlag = false;
+                }, 300); // Adjusting timeout
+            });
+
+            $(window).on('scroll', function () {
+                sections.each(function () {
+                    const top = $(this).offset().top;
+                    const bottom = top + $(this).outerHeight();
+                    const scrollTop = $(window).scrollTop();
+
+                    if (scrollTop > top - window.innerHeight / 1.5 && scrollTop < bottom - window.innerHeight / 5) {
+                        $(this).addClass('visible').removeClass('hidden');
+                    } else {
+                        $(this).removeClass('visible').addClass('hidden');
+                    }
+                });
+            });
+
+            // Resize handler to update section height dynamically
+            $(window).on('resize', function () {
+                $('section').css('height', $(window).height());
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+    <script>
+        emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS user ID
+
+        document.getElementById('contactForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                from_name: name,
+                from_email: email,
+                message: message
+            }).then(function () {
+                alert('Your message has been sent successfully!');
+            }, function (error) {
+                alert('Failed to send the message. Please try again later.');
+            });
+        });
+    </script>
+</body>
+
+</html>
